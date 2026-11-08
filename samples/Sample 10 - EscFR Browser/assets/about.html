@@ -15,12 +15,12 @@
     .hero {
       display: flex;
       align-items: center;
-      gap: 26px;
       padding-bottom: 28px;
       border-bottom: 1px solid var(--line);
     }
 
     .hero svg.mark {
+      margin-right: 26px;
       width: 92px;
       height: 92px;
       flex: 0 0 92px;
@@ -50,7 +50,6 @@
     .hero .badges {
       margin-top: 12px;
       display: flex;
-      gap: 8px;
       flex-wrap: wrap;
     }
 
@@ -75,8 +74,11 @@
 
     .grid2 {
       display: flex;
-      gap: 18px;
       flex-wrap: wrap;
+    }
+
+    .grid2 > .card + .card {
+      margin-left: 18px;
     }
 
     .grid2 > .card {
@@ -117,7 +119,6 @@
     .kv {
       display: flex;
       justify-content: space-between;
-      gap: 16px;
       padding: 9px 18px;
       border-bottom: 1px solid rgba(22, 34, 47, 0.7);
       font-size: 12.5px;
@@ -139,9 +140,12 @@
 
     .actions {
       display: flex;
-      gap: 10px;
       flex-wrap: wrap;
       padding: 16px 18px;
+    }
+
+    .actions > * + * {
+      margin-left: 10px;
     }
 
     .actions .btn {
@@ -189,7 +193,6 @@
           stroke-linecap="round" />
         <path d="M32 11a21 21 0 1 1-14.8 35.8" fill="none" stroke="#8b7bff" stroke-width="2.4"
           stroke-linecap="round" opacity="0.85" />
-        <path d="M19 23.5h21v4.8H24.8v5.9H37.4v4.8H24.8v6.7H40.5v4.8H19V23.5Z" fill="#e6eefb" />
       </svg>
       <div>
         <h1 class="glitch" data-text="EscFR">Esc<span>FR</span></h1>

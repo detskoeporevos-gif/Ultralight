@@ -17,7 +17,6 @@
       z-index: 2;
       display: flex;
       align-items: center;
-      gap: 14px;
       padding: 22px 0 18px;
       border-bottom: 1px solid var(--line);
       background: linear-gradient(180deg, rgba(7, 11, 17, 0.96), rgba(7, 11, 17, 0.72));
@@ -27,6 +26,16 @@
       width: 30px;
       height: 30px;
       flex: 0 0 30px;
+    }
+
+    header.top .top-inner {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    header.top .mark + div {
+      margin-left: 14px;
     }
 
     header.top h1 {
@@ -69,6 +78,26 @@
       fill: var(--text-faint);
     }
 
+    nav.side a svg {
+      margin-right: 10px;
+    }
+
+    .input-row > * + * {
+      margin-left: 8px;
+    }
+
+    .link-block > * + * {
+      margin-left: 14px;
+    }
+
+    .about-grid > * + * {
+      margin-left: 12px;
+    }
+
+    .layout > * + * {
+      margin-left: 30px;
+    }
+
     .searchbox input {
       flex: 1;
       min-width: 0;
@@ -86,7 +115,6 @@
 
     .layout {
       display: flex;
-      gap: 30px;
       align-items: flex-start;
       padding: 26px 0 0;
     }
@@ -102,7 +130,6 @@
     nav.side a {
       display: flex;
       align-items: center;
-      gap: 10px;
       height: 34px;
       padding: 0 11px;
       margin-bottom: 3px;
@@ -187,7 +214,6 @@
 
     .input-row {
       display: flex;
-      gap: 8px;
       width: 100%;
       max-width: 520px;
     }
@@ -195,7 +221,7 @@
     .link-block {
       display: flex;
       align-items: center;
-      gap: 14px;
+      flex-wrap: wrap;
       padding: 16px 18px;
       border-top: 1px solid var(--line-soft);
       flex-wrap: wrap;
@@ -237,12 +263,12 @@
     .about-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
       padding: 16px 18px;
     }
 
     .about-tile {
       flex: 1 1 190px;
+      margin-bottom: 12px;
       padding: 12px 14px;
       border: 1px solid var(--line);
       border-radius: 10px;
@@ -282,7 +308,6 @@
         width: auto;
         display: flex;
         overflow-x: auto;
-        gap: 4px;
         padding-bottom: 8px;
         margin-bottom: 18px;
       }
@@ -302,7 +327,7 @@
 <body>
   <div class="page">
     <header class="top">
-      <div class="shell" style="display:flex;align-items:center;gap:14px;width:100%">
+      <div class="shell top-inner">
         <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
           <circle cx="32" cy="32" r="29" fill="none" stroke="#1d2c40" stroke-width="1.8" />
           <path d="M32 4a28 28 0 0 1 24.2 42" fill="none" stroke="#ff2e57" stroke-width="3.4"

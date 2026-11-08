@@ -101,9 +101,58 @@ run_case() {
   APP_PID=""
 }
 
+# Extra case: drive the browser with real key events (tabs + shortcuts).
+interactive_case() {
+  local shot="escfr-tabs.png"
+  local log="escfr-tabs.log"
+  local wid
+
+  echo "=== launching EscFR for interactive check ==="
+  ESCFR_START_URL="esc://newtab" ./EscFR > "$log" 2>&1 &
+  APP_PID=$!
+  sleep 12
+
+  if ! kill -0 "$APP_PID" 2>/dev/null; then
+    echo "FAIL: EscFR exited during the interactive check"
+    annotate_log "$log"
+    FAILED=1
+    return
+  fi
+
+  wid=$(xdotool search --name "EscFR" 2>/dev/null | head -1)
+  if [[ -n "$wid" ]]; then
+    xdotool windowfocus "$wid" 2>/dev/null || true
+  fi
+
+  echo "--- Ctrl+T (new tab) ---"
+  xdotool key --clearmodifiers ctrl+t 2>/dev/null || true
+  sleep 2
+  echo "--- Ctrl+L + type esc://settings + Enter ---"
+  xdotool key --clearmodifiers ctrl+l 2>/dev/null || true
+  sleep 1
+  xdotool type --delay 40 "esc://settings" 2>/dev/null || true
+  sleep 1
+  xdotool key --clearmodifiers Return 2>/dev/null || true
+  sleep 5
+
+  import -window root "$shot" > /tmp/import.log 2>&1 || true
+  if [[ -s "$shot" ]]; then
+    echo "screenshot $shot captured"
+    identify "$shot" 2>&1 || true
+  else
+    echo "::warning::interactive screenshot was not captured"
+  fi
+
+  tail -n 15 "$log" 2>/dev/null || true
+  kill "$APP_PID" 2>/dev/null
+  wait "$APP_PID" 2>/dev/null
+  APP_PID=""
+}
+
 run_case "esc://newtab" "escfr-newtab.png"
 run_case "esc://settings" "escfr-settings.png"
 run_case "esc://about" "escfr-about.png"
+interactive_case
 
 if [[ "$FAILED" -ne 0 ]]; then
   echo "smoke test failed"

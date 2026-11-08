@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <title>Настройки — EscFR</title>
+  <link rel="stylesheet" type="text/css" href="wired.css">
+  <style>
+    .shell {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 26px;
+    }
+
+    header.top {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 22px 0 18px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(7, 11, 17, 0.96), rgba(7, 11, 17, 0.72));
+    }
+
+    header.top svg.mark {
+      width: 30px;
+      height: 30px;
+      flex: 0 0 30px;
+    }
+
+    header.top h1 {
+      font-size: 19px;
+      letter-spacing: -0.3px;
+    }
+
+    header.top .sub {
+      font-family: var(--mono);
+      font-size: 9.5px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-top: 2px;
+    }
+
+    .searchbox {
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 32px;
+      width: 260px;
+      margin-left: auto;
+      padding: 0 12px;
+      border: 1px solid #22374f;
+      border-radius: 999px;
+      background: #060b12;
+    }
+
+    .searchbox:focus-within {
+      border-color: rgba(51, 227, 207, 0.6);
+      box-shadow: 0 0 12px rgba(51, 227, 207, 0.12);
+    }
+
+    .searchbox svg {
+      width: 13px;
+      height: 13px;
+      flex: 0 0 13px;
+      margin-right: 8px;
+      fill: var(--text-faint);
+    }
+
+    .searchbox input {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 11.5px;
+    }
+
+    .searchbox input::placeholder {
+      color: var(--text-faint);
+    }
+
+    .layout {
+      display: flex;
+      gap: 30px;
+      align-items: flex-start;
+      padding: 26px 0 0;
+    }
+
+    nav.side {
+      position: sticky;
+      top: 18px;
+      width: 208px;
+      flex: 0 0 208px;
+      padding-right: 4px;
+    }
+
+    nav.side a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 34px;
+      padding: 0 11px;
+      margin-bottom: 3px;
+      border-radius: 8px;
+      border-left: 2px solid transparent;
+      color: var(--text-dim);
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    nav.side a svg {
+      width: 14px;
+      height: 14px;
+      flex: 0 0 14px;
+      fill: currentColor;
+    }
+
+    nav.side a:hover {
+      background: #0f1a27;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    nav.side a.active {
+      background: linear-gradient(90deg, rgba(51, 227, 207, 0.1), transparent);
+      border-left-color: var(--cyan);
+      color: #eaf1fb;
+    }
+
+    nav.side a.active svg {
+      color: var(--cyan);
+    }
+
+    .side-note {
+      margin-top: 20px;
+      padding: 12px;
+      border: 1px dashed #1f3247;
+      border-radius: 9px;
+      font-family: var(--mono);
+      font-size: 9.5px;
+      line-height: 1.7;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .side-note b {
+      color: var(--red);
+      font-weight: 400;
+    }
+
+    main.content {
+      flex: 1;
+      min-width: 0;
+      padding-bottom: 40px;
+    }
+
+    section.group {
+      scroll-margin-top: 20px;
+    }
+
+    section.group > h2 {
+      font-size: 12px;
+      font-family: var(--mono);
+      font-weight: 400;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin: 0 0 10px 2px;
+    }
+
+    section.group + section.group {
+      margin-top: 30px;
+    }
+
+    .value-mono {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: var(--cyan);
+      letter-spacing: 0.6px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .link-block {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      border-top: 1px solid var(--line-soft);
+      flex-wrap: wrap;
+    }
+
+    .link-block .btn {
+      text-decoration: none;
+    }
+
+    .wired-status {
+      position: relative;
+      padding: 16px 18px;
+      border-radius: 10px;
+      border: 1px solid rgba(51, 227, 207, 0.22);
+      background:
+        repeating-linear-gradient(180deg, rgba(51, 227, 207, 0.05) 0 1px, transparent 1px 4px),
+        linear-gradient(180deg, rgba(11, 26, 32, 0.9), rgba(8, 15, 20, 0.9));
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: #9ff3e8;
+      letter-spacing: 0.4px;
+      line-height: 1.9;
+    }
+
+    .wired-status .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 12px;
+      background: var(--cyan);
+      vertical-align: -1px;
+      animation: caret 1.1s steps(1) infinite;
+    }
+
+    @keyframes caret {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    .about-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 16px 18px;
+    }
+
+    .about-tile {
+      flex: 1 1 190px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(9, 15, 23, 0.7);
+    }
+
+    .about-tile span {
+      display: block;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 4px;
+    }
+
+    .about-tile b {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e7eefb;
+    }
+
+    .hidden-by-filter {
+      display: none !important;
+    }
+
+    .foot {
+      padding-bottom: 30px;
+    }
+
+    @media (max-width: 840px) {
+      .layout {
+        display: block;
+      }
+      nav.side {
+        position: static;
+        width: auto;
+        display: flex;
+        overflow-x: auto;
+        gap: 4px;
+        padding-bottom: 8px;
+        margin-bottom: 18px;
+      }
+      nav.side a {
+        white-space: nowrap;
+      }
+      .side-note {
+        display: none;
+      }
+      .searchbox {
+        width: 180px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header class="top">
+      <div class="shell" style="display:flex;align-items:center;gap:14px;width:100%">
+        <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="29" fill="none" stroke="#1d2c40" stroke-width="1.8" />
+          <path d="M32 4a28 28 0 0 1 24.2 42" fill="none" stroke="#ff2e57" stroke-width="3.4"
+            stroke-linecap="round" />
+          <path d="M32 60A28 28 0 0 1 7.8 18" fill="none" stroke="#33e3cf" stroke-width="3.4"
+            stroke-linecap="round" />
+          <path d="M20 24h20v4.6H25.4v5.7H37v4.6H25.4v6.5H40V50H20V24Z" fill="#e6eefb" />
+        </svg>
+        <div>
+          <h1>Настройки</h1>
+          <div class="sub">EscFR · wired control panel</div>
+        </div>
+        <label class="searchbox">
+          <svg viewBox="0 0 16 16">
+            <path d="M7 1.7a5.3 5.3 0 1 0 3.3 9.5l3.1 3.1 1.2-1.2-3.1-3.1A5.3 5.3 0 0 0 7 1.7Zm0 1.7a3.6 3.6 0 1 1 0 7.2 3.6 3.6 0 0 1 0-7.2Z" />
+          </svg>
+          <input id="filter" type="text" placeholder="Найти в настройках">
+        </label>
+      </div>
+    </header>
+
+    <div class="shell layout">
+      <nav class="side" id="side">
+        <a href="#general" class="active">
+          <svg viewBox="0 0 16 16"><path d="M8 1.7 1.6 4.6v2.1h12.8V4.6L8 1.7ZM3 7.8h2v5.3H3V7.8Zm4 0h2v5.3H7V7.8Zm4 0h2v5.3h-2V7.8ZM1.6 13.6h12.8v1.5H1.6v-1.5Z" /></svg>
+          Общие
+        </a>
+        <a href="#appearance">
+          <svg viewBox="0 0 16 16"><path d="M8 1.4A6.6 6.6 0 1 0 14.6 8c0-.3 0-.6-.1-.9A5 5 0 0 1 9 2.4c0-.4 0-.7.1-1h-1.1Zm-3.2 3a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2Zm6 4.6a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2ZM6.4 11a1.1 1.1 0 1 1 0 2.2A1.1 1.1 0 0 1 6.4 11Z" /></svg>
+          Внешний вид
+        </a>
+        <a href="#privacy">
+          <svg viewBox="0 0 16 16"><path d="M8 1 2.6 3v5.1c0 3.2 2.1 5.6 5.4 6.9 3.3-1.3 5.4-3.7 5.4-6.9V3L8 1Zm0 1.8 3.7 1.4v3.9c0 2.2-1.3 4-3.7 5.1-2.4-1.1-3.7-2.9-3.7-5.1V4.2L8 2.8Z" /></svg>
+          Приватность
+        </a>
+        <a href="#wired">
+          <svg viewBox="0 0 16 16"><path d="M2 3.2h1.7l1.6 6.1 1.7-6.1h1.6l1.7 6.1 1.6-6.1H14l-2.6 9.6H9.7L8 6.9l-1.7 5.9H4.6L2 3.2Z" /></svg>
+          Wired
+        </a>
+        <a href="#about">
+          <svg viewBox="0 0 16 16"><path d="M8 1.4A6.6 6.6 0 1 0 8 14.6 6.6 6.6 0 0 0 8 1.4Zm0 1.8a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2Zm1 9.4H7V6.9h2v5.7Z" /></svg>
+          О программе
+        </a>
+        <div class="side-note">
+          link id <b>07</b><br>
+          protocol esc<br>
+          renderer ultralight<br>
+          shell firefox · wired
+        </div>
+      </nav>
+
+      <main class="content" id="content">
+        <section class="group" id="general">
+          <h2>Общие</h2>
+          <div class="card">
+            <div class="card-head">
+              <h2>Запуск и поиск</h2>
+              <span class="hint">general</span>
+            </div>
+            <div class="card-body">
+              <div class="row stack">
+                <div class="label">
+                  <b>Домашняя страница</b>
+                  <span>Открывается по кнопке «домик». Поддерживается <code class="mono">esc://newtab</code>,
+                    <code class="mono">esc://settings</code> и обычные адреса.</span>
+                </div>
+                <div class="input-row">
+                  <input class="field" id="homePage" type="text" spellcheck="false">
+                  <button class="btn" id="homeReset">Сброс</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="label">
+                  <b>Поисковая система</b>
+                  <span>Используется, когда в адресной строке введён текст, а не адрес.</span>
+                </div>
+                <select class="field" id="searchEngine" style="max-width:220px">
+                  <option value="duckduckgo">DuckDuckGo</option>
+                  <option value="google">Google</option>
+                  <option value="bing">Bing</option>
+                  <option value="yandex">Яндекс</option>
+                </select>
+              </div>
+              <div class="row">
+                <div class="label">
+                  <b>Новая вкладка</b>
+                  <span>Стартовая страница Wired со быстрыми ссылками и поиском.</span>
+                </div>
+                <span class="value-mono">esc://newtab</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="group" id="appearance">
+          <h2>Внешний вид</h2>
+          <div class="card">
+            <div class="card-head">
+              <h2>Интерфейс</h2>
+              <span class="hint">appearance</span>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="label">
+                  <b>Компактные вкладки</b>
+                  <span>Уменьшает отступы и шрифт в полосе вкладок — больше вкладок на экране.</span>
+                </div>
+                <div class="switch" id="sw-compact" role="switch" tabindex="0"><span class="knob"></span></div>
+              </div>
+              <div class="row">
+                <div class="label">
+                  <b>Сканлайны Wired</b>
+                  <span>Тонкая строчная развёртка и виньетка на внутренних страницах.</span>
+                </div>
+                <div class="switch" id="sw-scanlines" role="switch" tabindex="0"><span class="knob"></span></div>
+              </div>
+              <div class="row">
+                <div class="label">
+                  <b>Глитч-эффекты</b>
+                  <span>Цветовые сдвиги заголовка и логотипа. Отключите для спокойного режима.</span>
+                </div>
+                <div class="switch" id="sw-glitch" role="switch" tabindex="0"><span class="knob"></span></div>
+              </div>
+              <div class="row">
+                <div class="label">
+                  <b>Тема оформления</b>
+                  <span>Собственный скин EscFR: тёмный Wired + геометрия Firefox.</span>
+                </div>
+                <select class="field" id="theme" style="max-width:220px" disabled>
+                  <option>Wired 07 (по умолчанию)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="group" id="privacy">
+          <h2>Приватность</h2>
+          <div class="card">
+            <div class="card-head">
+              <h2>Защита EscFR</h2>
+              <span class="hint">privacy</span>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="label">
+                  <b>EscFR Protect</b>
+                  <span>Показывает состояние соединения в адресной строке и предупреждает об открытом HTTP.</span>
+                </div>
+                <div class="switch" id="sw-shield" role="switch" tabindex="0"><span class="knob"></span></div>
+              </div>
+              <div class="row">
+                <div class="label">
+                  <b>Блокировка трекеров</b>
+                  <span>Появится в следующей сборке вместе с фильтрами Wired. Пока выключено.</span>
+                </div>
+                <div class="switch" id="sw-blocktrackers" role="switch" tabindex="0"
+                  style="opacity:.45;pointer-events:none"><span class="knob"></span></div>
+              </div>
+              <div class="row">
+                <div class="label">
+                  <b>Очистка данных</b>
+                  <span>Удаляет сохранённые настройки EscFR и возвращает значения по умолчанию.</span>
+                </div>
+                <button class="btn" id="clearData">Очистить</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="group" id="wired">
+          <h2>Wired</h2>
+          <div class="card">
+            <div class="card-head">
+              <h2>Подключение</h2>
+              <span class="hint">link 07</span>
+            </div>
+            <div class="card-body" style="padding:14px 18px">
+              <div class="wired-status" id="wiredStatus">
+                <div>&gt; establishing link ... <span class="value-mono">ok</span></div>
+                <div>&gt; protocol <span class="value-mono">esc://</span> renderer
+                  <span class="value-mono">ultralight</span></div>
+                <div>&gt; shell <span class="value-mono">firefox-geometry</span> skin
+                  <span class="value-mono">wired</span></div>
+                <div>&gt; awaiting input <span class="cursor"></span></div>
+              </div>
+              <div class="link-block" style="padding-left:0;padding-right:0">
+                <button class="btn primary" id="reconnect">Переподключиться</button>
+                <button class="btn ghost" id="openAbout">О EscFR</button>
+                <span class="mono" style="font-size:10px;letter-spacing:1.4px;color:var(--text-faint)">
+                  LINK ID 07 · ESCFR 1.0
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="group" id="about">
+          <h2>О программе</h2>
+          <div class="card">
+            <div class="card-head">
+              <h2>EscFR</h2>
+              <span class="hint">v1.0.0</span>
+            </div>
+            <div class="about-grid">
+              <div class="about-tile"><span>версия</span><b>1.0.0 «Wired»</b></div>
+              <div class="about-tile"><span>движок</span><b>Ultralight 1.3</b></div>
+              <div class="about-tile"><span>оболочка</span><b>Firefox-style chrome</b></div>
+              <div class="about-tile"><span>платформы</span><b>Linux · Windows</b></div>
+            </div>
+            <div class="link-block">
+              <button class="btn ghost" id="showKeys">Горячие клавиши</button>
+              <button class="btn ghost" id="openDevtools">Инспектор</button>
+              <button class="btn" id="resetAll">Сбросить настройки</button>
+            </div>
+          </div>
+        </section>
+
+        <div class="foot">
+          present day, present time
+          <br><code>esc://settings · escfr</code>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="toast" style="position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);z-index:9;
+    padding:10px 18px;border:1px solid rgba(51,227,207,.4);border-radius:10px;background:#0b1620;
+    font-family:var(--mono);font-size:11px;letter-spacing:.6px;color:#b6f6ee;opacity:0;
+    transition:opacity .18s ease,transform .18s ease;pointer-events:none;box-shadow:0 10px 26px rgba(0,0,0,.5)">
+  </div>
+  <style>
+    #toast.show { opacity: 1; transform: translate(-50%, 0); }
+  </style>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var DEFAULTS = {
+        searchEngine: 'duckduckgo',
+        homePage: 'esc://newtab',
+        scanlines: true,
+        glitch: true,
+        compact: false,
+        shield: true
+      };
+
+      var settings = {};
+
+      function native(name) {
+        return typeof window[name] === 'function' ? window[name] : null;
+      }
+
+      function merge(base, patch) {
+        var out = {};
+        for (var k in base) if (Object.prototype.hasOwnProperty.call(base, k)) out[k] = base[k];
+        for (var j in patch) if (Object.prototype.hasOwnProperty.call(patch, j)) out[j] = patch[j];
+        return out;
+      }
+
+      function loadLocal() {
+        try {
+          var raw = window.localStorage ? localStorage.getItem('escfr.settings') : null;
+          settings = merge(DEFAULTS, raw ? JSON.parse(raw) : {});
+        } catch (e) {
+          settings = merge(DEFAULTS, {});
+        }
+      }
+
+      function save() {
+        var payload = JSON.stringify(settings);
+        var fn = native('escFRSaveSettings');
+        if (fn) { fn(payload); return; }
+        try {
+          if (window.localStorage) localStorage.setItem('escfr.settings', payload);
+        } catch (e) { /* ignore */ }
+        document.body.classList.toggle('no-scan', !settings.scanlines);
+        document.body.classList.toggle('no-glitch', !settings.glitch);
+        document.body.classList.toggle('compact', !!settings.compact);
+      }
+
+      function paint() {
+        document.getElementById('homePage').value = settings.homePage || DEFAULTS.homePage;
+        document.getElementById('searchEngine').value = settings.searchEngine || DEFAULTS.searchEngine;
+
+        setSwitch('sw-compact', settings.compact);
+        setSwitch('sw-scanlines', settings.scanlines);
+        setSwitch('sw-glitch', settings.glitch);
+        setSwitch('sw-shield', settings.shield);
+      }
+
+      function setSwitch(id, value) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.classList.toggle('on', !!value);
+        el.setAttribute('aria-checked', value ? 'true' : 'false');
+      }
+
+      function bindSwitch(id, key) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        function flip() {
+          settings[key] = !settings[key];
+          setSwitch(id, settings[key]);
+          save();
+          document.body.classList.toggle('no-scan', !settings.scanlines);
+          document.body.classList.toggle('no-glitch', !settings.glitch);
+          document.body.classList.toggle('compact', !!settings.compact);
+        }
+        el.addEventListener('click', flip);
+        el.addEventListener('keydown', function (ev) {
+          if (ev.key === ' ' || ev.key === 'Enter') { ev.preventDefault(); flip(); }
+        });
+      }
+
+      function toast(message) {
+        var fn = native('escFRToast');
+        if (fn) return fn(message);
+        var el = document.getElementById('toast');
+        if (!el) return;
+        el.textContent = message;
+        el.classList.add('show');
+        clearTimeout(toast._t);
+        toast._t = setTimeout(function () { el.classList.remove('show'); }, 2400);
+      }
+
+      function scrollToId(id) {
+        var target = document.getElementById(id);
+        if (target) target.scrollIntoView();
+      }
+
+      var started = false;
+
+      function init() {
+        if (started) return;
+        started = true;
+        document.body.setAttribute('data-escfr-ready', '1');
+        paint();
+        document.body.classList.toggle('no-scan', !settings.scanlines);
+        document.body.classList.toggle('no-glitch', !settings.glitch);
+        document.body.classList.toggle('compact', !!settings.compact);
+
+        bindSwitch('sw-compact', 'compact');
+        bindSwitch('sw-scanlines', 'scanlines');
+        bindSwitch('sw-glitch', 'glitch');
+        bindSwitch('sw-shield', 'shield');
+
+        document.getElementById('searchEngine').addEventListener('change', function () {
+          settings.searchEngine = this.value;
+          save();
+          toast('Поиск: ' + this.value);
+        });
+
+        document.getElementById('homePage').addEventListener('change', function () {
+          settings.homePage = this.value.trim() || DEFAULTS.homePage;
+          this.value = settings.homePage;
+          save();
+          toast('Домашняя страница обновлена');
+        });
+
+        document.getElementById('homeReset').addEventListener('click', function () {
+          settings.homePage = DEFAULTS.homePage;
+          document.getElementById('homePage').value = settings.homePage;
+          save();
+          toast('Домашняя страница: esc://newtab');
+        });
+
+        document.getElementById('clearData').addEventListener('click', function () {
+          settings = merge(DEFAULTS, {});
+          paint();
+          save();
+          toast('Данные EscFR очищены');
+        });
+
+        document.getElementById('resetAll').addEventListener('click', function () {
+          settings = merge(DEFAULTS, {});
+          paint();
+          save();
+          toast('Настройки сброшены');
+        });
+
+        document.getElementById('reconnect').addEventListener('click', function () {
+          var el = document.getElementById('wiredStatus');
+          el.innerHTML = '<div>&gt; reconnecting ... <span class="value-mono">ok</span></div>' +
+            '<div>&gt; link 07 restored</div>' +
+            '<div>&gt; awaiting input <span class="cursor"></span></div>';
+          toast('Wired переподключён');
+        });
+
+        document.getElementById('openAbout').addEventListener('click', function () {
+          var fn = native('escFRNavigate');
+          if (fn) fn('esc://about');
+          else window.location.href = 'about.html';
+        });
+
+        document.getElementById('showKeys').addEventListener('click', function () {
+          var fn = native('escFRNavigate');
+          if (fn) fn('esc://about#keys');
+          else window.location.hash = '';
+        });
+
+        document.getElementById('openDevtools').addEventListener('click', function () {
+          var fn = native('escFRToggleDevtools');
+          if (fn) fn();
+        });
+
+        /* sidebar navigation */
+        var links = Array.prototype.slice.call(document.querySelectorAll('nav.side a'));
+        links.forEach(function (link) {
+          link.addEventListener('click', function (ev) {
+            ev.preventDefault();
+            var id = link.getAttribute('href').substring(1);
+            scrollToId(id);
+            links.forEach(function (l) { l.classList.remove('active'); });
+            link.classList.add('active');
+          });
+        });
+
+        /* settings filter */
+        var filter = document.getElementById('filter');
+        filter.addEventListener('input', function () {
+          var q = filter.value.trim().toLowerCase();
+          Array.prototype.forEach.call(document.querySelectorAll('#content .card'), function (card) {
+            var rows = Array.prototype.slice.call(card.querySelectorAll('.row, .link-block, .about-grid'));
+            var visible = 0;
+            rows.forEach(function (row) {
+              var hit = !q || row.textContent.toLowerCase().indexOf(q) >= 0;
+              row.classList.toggle('hidden-by-filter', !hit);
+              if (hit) visible++;
+            });
+            card.classList.toggle('hidden-by-filter', !!q && visible === 0);
+          });
+          Array.prototype.forEach.call(document.querySelectorAll('#content section.group'), function (group) {
+            var any = group.querySelector('.card:not(.hidden-by-filter)');
+            group.classList.toggle('hidden-by-filter', !!q && !any);
+          });
+        });
+      }
+
+      /* The shell pushes the saved settings in as soon as the page is ready. */
+      window.__escFRInit = function (json) {
+        try {
+          settings = merge(DEFAULTS, JSON.parse(json || '{}'));
+        } catch (e) {
+          settings = merge(DEFAULTS, {});
+        }
+        init();
+      };
+
+      /* Standalone fallback (opening settings.html in any browser). */
+      setTimeout(function () {
+        if (document.body.getAttribute('data-escfr-ready')) return;
+        loadLocal();
+        init();
+      }, 350);
+    })();
+  </script>
+</body>
+
+</html>

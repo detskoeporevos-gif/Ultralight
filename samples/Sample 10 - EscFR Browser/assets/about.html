@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <title>О EscFR</title>
+  <link rel="stylesheet" type="text/css" href="wired.css">
+  <style>
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 44px 28px 60px;
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero svg.mark {
+      width: 92px;
+      height: 92px;
+      flex: 0 0 92px;
+      filter: drop-shadow(0 0 22px rgba(51, 227, 207, 0.2));
+    }
+
+    .hero h1 {
+      font-size: 40px;
+      letter-spacing: -1px;
+      line-height: 1;
+      color: #f2f7ff;
+    }
+
+    .hero h1 span {
+      color: var(--red);
+    }
+
+    .hero .sub {
+      margin-top: 10px;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .hero .badges {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .lead {
+      margin: 26px 0 30px;
+      font-size: 14.5px;
+      line-height: 1.75;
+      color: var(--text-dim);
+      max-width: 720px;
+    }
+
+    .lead b {
+      color: #e8f0fb;
+      font-weight: 600;
+    }
+
+    .lead em {
+      font-family: var(--serif);
+      font-style: italic;
+      color: var(--text);
+    }
+
+    .grid2 {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .grid2 > .card {
+      flex: 1 1 320px;
+      margin-bottom: 0;
+    }
+
+    .card-body .row b {
+      font-size: 13px;
+    }
+
+    .card-body .row span {
+      font-size: 12px;
+    }
+
+    table.keys {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table.keys td {
+      padding: 9px 18px;
+      border-bottom: 1px solid rgba(22, 34, 47, 0.7);
+      font-size: 12.5px;
+      color: var(--text-dim);
+    }
+
+    table.keys td:first-child {
+      width: 190px;
+      white-space: nowrap;
+      color: var(--text);
+    }
+
+    table.keys tr:last-child td {
+      border-bottom: none;
+    }
+
+    .kv {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 9px 18px;
+      border-bottom: 1px solid rgba(22, 34, 47, 0.7);
+      font-size: 12.5px;
+    }
+
+    .kv:last-child {
+      border-bottom: none;
+    }
+
+    .kv span {
+      color: var(--text-dim);
+    }
+
+    .kv code {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: var(--cyan);
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 16px 18px;
+    }
+
+    .actions .btn {
+      text-decoration: none;
+    }
+
+    .quote {
+      margin: 34px 0 0;
+      padding: 22px 24px;
+      border-left: 2px solid var(--red);
+      background: linear-gradient(90deg, rgba(255, 46, 87, 0.06), transparent);
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 16px;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+
+    .quote span {
+      display: block;
+      margin-top: 8px;
+      font-family: var(--mono);
+      font-style: normal;
+      font-size: 9.5px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .foot {
+      margin-top: 40px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page wrap">
+    <div class="hero">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="none" stroke="#1b2a3d" stroke-width="1.4" />
+        <circle cx="32" cy="32" r="22" fill="none" stroke="#14202f" stroke-width="1" />
+        <path d="M32 3a29 29 0 0 1 25 43.5" fill="none" stroke="#ff2e57" stroke-width="3.6"
+          stroke-linecap="round" />
+        <path d="M32 61A29 29 0 0 1 7 17.5" fill="none" stroke="#33e3cf" stroke-width="3.6"
+          stroke-linecap="round" />
+        <path d="M32 11a21 21 0 1 1-14.8 35.8" fill="none" stroke="#8b7bff" stroke-width="2.4"
+          stroke-linecap="round" opacity="0.85" />
+        <path d="M19 23.5h21v4.8H24.8v5.9H37.4v4.8H24.8v6.7H40.5v4.8H19V23.5Z" fill="#e6eefb" />
+      </svg>
+      <div>
+        <h1 class="glitch" data-text="EscFR">Esc<span>FR</span></h1>
+        <div class="sub">esc · wired · firefox shell</div>
+        <div class="badges">
+          <span class="badge">v1.0.0 wired</span>
+          <span class="badge red">link 07</span>
+          <span class="badge">ultralight 1.3</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="lead">
+      <b>EscFR</b> — лёгкий браузер, собранный на рендерере <b>Ultralight</b>. Геометрия интерфейса
+      повторяет Firefox: полоса вкладок, адресная строка-пилюля, кнопка меню и страница настроек
+      с боковым списком. Оформление — <em>Wired</em>: тёмная сетка, сканлайны, неоновый циан и
+      красный сигнал, глитч в заголовках и шёпот «present day, present time».
+    </p>
+
+    <div class="grid2">
+      <div class="card">
+        <div class="card-head">
+          <h2>Что внутри</h2>
+          <span class="hint">inside</span>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="label"><b>Рендерер</b><span>Ultralight / WebCore (WebKit fork), CPU+GPU</span></div>
+          </div>
+          <div class="row">
+            <div class="label"><b>Оболочка</b><span>Собственный chrome на HTML/CSS/JS поверх AppCore</span></div>
+          </div>
+          <div class="row">
+            <div class="label"><b>Мост JS↔C++</b><span>Вкладки, навигация, настройки, инспектор</span></div>
+          </div>
+          <div class="row">
+            <div class="label"><b>Шрифты</b><span>Inter, JetBrains Mono, EB Garamond (OFL)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>Сборка</h2>
+          <span class="hint">build</span>
+        </div>
+        <div class="kv"><span>Платформы</span><code>Linux x64 · Windows x64</code></div>
+        <div class="kv"><span>Сборочная система</span><code>CMake + Ninja</code></div>
+        <div class="kv"><span>Цель сборки</span><code>EscFR</code></div>
+        <div class="kv"><span>CI</span><code>GitHub Actions</code></div>
+        <div class="actions">
+          <a class="btn primary" href="esc://newtab" data-internal="esc://newtab">Новая вкладка</a>
+          <a class="btn ghost" href="esc://settings" data-internal="esc://settings">Настройки</a>
+        </div>
+      </div>
+    </div>
+
+    <h2 style="margin:30px 0 12px" id="keys">Горячие клавиши</h2>
+    <div class="card">
+      <table class="keys">
+        <tr><td><span class="kbd">Ctrl</span> <span class="kbd">T</span></td><td>Новая вкладка</td></tr>
+        <tr><td><span class="kbd">Ctrl</span> <span class="kbd">W</span></td><td>Закрыть активную вкладку</td></tr>
+        <tr><td><span class="kbd">Ctrl</span> <span class="kbd">L</span></td><td>Фокус в адресную строку</td></tr>
+        <tr><td><span class="kbd">Ctrl</span> <span class="kbd">R</span> / <span class="kbd">F5</span></td><td>Обновить страницу</td></tr>
+        <tr><td><span class="kbd">Alt</span> <span class="kbd">←</span> / <span class="kbd">→</span></td><td>Назад / вперёд</td></tr>
+        <tr><td><span class="kbd">Ctrl</span> <span class="kbd">,</span></td><td>Настройки</td></tr>
+        <tr><td><span class="kbd">Ctrl</span> <span class="kbd">Shift</span> <span class="kbd">I</span></td><td>Инспектор DOM</td></tr>
+        <tr><td><span class="kbd">Esc</span></td><td>Остановить загрузку / снять фокус</td></tr>
+        <tr><td><span class="kbd">Ctrl</span> <span class="kbd">Q</span></td><td>Выход</td></tr>
+      </table>
+    </div>
+
+    <div class="quote">
+      «Если ты не помнишь, что было в Wired, значит, это было не с тобой.»
+      <span>present day, present time · let's all love lain</span>
+    </div>
+
+    <div class="foot">
+      EscFR 1.0 «Wired» · собрано на Ultralight
+      <br><code>esc://about · github actions</code>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      Array.prototype.forEach.call(document.querySelectorAll('[data-internal]'), function (el) {
+        el.addEventListener('click', function (ev) {
+          ev.preventDefault();
+          if (typeof window.escFRNavigate === 'function') window.escFRNavigate(el.getAttribute('data-internal'));
+          else window.location.href = el.getAttribute('data-internal');
+        });
+      });
+      if (window.location.hash === '#keys') {
+        var keys = document.getElementById('keys');
+        if (keys) keys.scrollIntoView();
+      }
+    })();
+  </script>
+</body>
+
+</html>

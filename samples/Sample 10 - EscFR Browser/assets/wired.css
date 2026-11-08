@@ -1,0 +1,469 @@
+/* ============================================================
+   EscFR — shared stylesheet for internal pages
+   "Wired" palette, grid + scanline atmosphere, Firefox-ish widgets
+   ============================================================ */
+
+@font-face {
+  font-family: "EscFR UI";
+  src: url("fonts/inter-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "EscFR UI";
+  src: url("fonts/inter-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "EscFR Mono";
+  src: url("fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "EscFR Mono";
+  src: url("fonts/jetbrains-mono-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "EscFR Serif";
+  src: url("fonts/eb-garamond-latin-400-italic.woff2") format("woff2");
+  font-style: italic;
+}
+
+:root {
+  --bg: #070b11;
+  --bg-2: #0a1018;
+  --panel: #0c141f;
+  --panel-2: #101a27;
+  --panel-3: #14202f;
+  --line: #1c2b3e;
+  --line-soft: #16222f;
+  --text: #d5deec;
+  --text-dim: #8b9bb1;
+  --text-faint: #5a6a80;
+  --red: #ff2e57;
+  --red-soft: rgba(255, 46, 87, 0.14);
+  --cyan: #33e3cf;
+  --cyan-soft: rgba(51, 227, 207, 0.12);
+  --violet: #8b7bff;
+  --amber: #ffc46b;
+  --ui: "EscFR UI", "Segoe UI", -apple-system, Ubuntu, Arial, sans-serif;
+  --mono: "EscFR Mono", "SFMono-Regular", Consolas, "Courier New", monospace;
+  --serif: "EscFR Serif", Georgia, "Times New Roman", serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  position: relative;
+  min-height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ui);
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* wire grid */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(51, 227, 207, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(51, 227, 207, 0.04) 1px, transparent 1px),
+    radial-gradient(circle at 22% 8%, rgba(255, 46, 87, 0.1), transparent 42%),
+    radial-gradient(circle at 82% 88%, rgba(139, 123, 255, 0.12), transparent 46%);
+  background-size: 52px 52px, 52px 52px, 100% 100%, 100% 100%;
+}
+
+/* scanlines + vignette */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(180deg,
+      rgba(0, 0, 0, 0.22) 0px,
+      rgba(0, 0, 0, 0.22) 1px,
+      transparent 1px,
+      transparent 3px),
+    radial-gradient(ellipse at 50% 45%, transparent 45%, rgba(0, 0, 0, 0.55) 100%);
+  opacity: 0.65;
+}
+
+.page {
+  position: relative;
+  z-index: 2;
+}
+
+::selection {
+  background: rgba(51, 227, 207, 0.28);
+  color: #ffffff;
+}
+
+a {
+  color: var(--cyan);
+  text-decoration: none;
+}
+
+a:hover {
+  color: #7ff5e6;
+  text-decoration: underline;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #060a10;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1d2c40;
+  border: 2px solid #060a10;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2a3f59;
+}
+
+/* ------------------------------------------------------------
+   Typography helpers
+   ------------------------------------------------------------ */
+.mono {
+  font-family: var(--mono);
+}
+
+.kicker {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.serif {
+  font-family: var(--serif);
+  font-style: italic;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.glitch::before {
+  color: var(--red);
+  transform: translate(-2px, 0);
+  clip-path: inset(0 0 62% 0);
+  animation: gl-a 5s steps(1) infinite;
+}
+
+.glitch::after {
+  color: var(--cyan);
+  transform: translate(2px, 0);
+  clip-path: inset(58% 0 0 0);
+  animation: gl-b 4.4s steps(1) infinite;
+}
+
+@keyframes gl-a {
+  0%, 93%, 100% { transform: translate(-2px, 0); opacity: 0.55; }
+  94% { transform: translate(-5px, -1px); opacity: 1; }
+  96% { transform: translate(3px, 1px); opacity: 0.75; }
+  98% { transform: translate(-2px, 0); opacity: 0.4; }
+}
+
+@keyframes gl-b {
+  0%, 90%, 100% { transform: translate(2px, 0); opacity: 0.5; }
+  91% { transform: translate(5px, 1px); opacity: 1; }
+  95% { transform: translate(-3px, -1px); opacity: 0.6; }
+  97% { transform: translate(2px, 0); opacity: 0.35; }
+}
+
+.no-glitch .glitch::before,
+.no-glitch .glitch::after {
+  display: none;
+}
+
+.no-scan body::after,
+body.no-scan::after {
+  background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(0, 0, 0, 0.4) 100%);
+}
+
+/* ------------------------------------------------------------
+   Cards, rows, controls (Firefox-like geometry)
+   ------------------------------------------------------------ */
+.card {
+  background: linear-gradient(180deg, var(--panel-2) 0%, var(--panel) 100%);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin-bottom: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--line-soft);
+  background: linear-gradient(180deg, rgba(20, 32, 47, 0.85), rgba(12, 20, 31, 0.2));
+}
+
+.card-head h2 {
+  font-size: 14.5px;
+}
+
+.card-head .hint {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.card-body {
+  padding: 6px 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(22, 34, 47, 0.7);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row .label {
+  flex: 1;
+  min-width: 0;
+}
+
+.row .label b {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #e7eefb;
+}
+
+.row .label span {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--text-dim);
+  max-width: 560px;
+}
+
+.row.stack {
+  display: block;
+}
+
+.row.stack .label {
+  margin-bottom: 9px;
+}
+
+/* switch */
+.switch {
+  position: relative;
+  width: 42px;
+  height: 24px;
+  flex: 0 0 42px;
+  border: 1px solid #24384f;
+  border-radius: 999px;
+  background: #0a1119;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.switch .knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #5c6d84;
+  transition: transform 170ms cubic-bezier(0.4, 0.1, 0.2, 1), background-color 160ms ease;
+}
+
+.switch.on {
+  background: linear-gradient(180deg, #1a8f83, #0f655c);
+  border-color: rgba(51, 227, 207, 0.55);
+  box-shadow: 0 0 12px rgba(51, 227, 207, 0.22);
+}
+
+.switch.on .knob {
+  transform: translateX(18px);
+  background: #eafffb;
+}
+
+/* text input / select */
+.field {
+  width: 100%;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid #22374f;
+  border-radius: 8px;
+  background: #060b12;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  outline: none;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.field:focus {
+  border-color: rgba(51, 227, 207, 0.65);
+  box-shadow: 0 0 0 1px rgba(51, 227, 207, 0.18), 0 0 14px rgba(51, 227, 207, 0.12);
+}
+
+select.field {
+  cursor: default;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--text-dim) 50%),
+    linear-gradient(135deg, var(--text-dim) 50%, transparent 50%);
+  background-position: calc(100% - 16px) 15px, calc(100% - 11px) 15px;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 32px;
+}
+
+/* buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 32px;
+  padding: 0 14px;
+  border: 1px solid #24384f;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #162333, #101a27);
+  color: var(--text);
+  font-family: var(--ui);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: default;
+  transition: background 130ms ease, border-color 130ms ease, transform 60ms ease;
+}
+
+.btn:hover {
+  background: linear-gradient(180deg, #1d2d41, #152333);
+  border-color: #31516f;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn.primary {
+  border-color: rgba(255, 46, 87, 0.5);
+  background: linear-gradient(180deg, #d32344, #a81733);
+  color: #fff4f7;
+  box-shadow: 0 0 16px rgba(255, 46, 87, 0.18);
+}
+
+.btn.primary:hover {
+  background: linear-gradient(180deg, #ec2b50, #b81a38);
+}
+
+.btn.ghost {
+  background: transparent;
+}
+
+.kbd {
+  display: inline-block;
+  min-width: 18px;
+  padding: 1px 5px;
+  border: 1px solid #26394f;
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  background: #0a1119;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid rgba(51, 227, 207, 0.32);
+  border-radius: 999px;
+  background: rgba(51, 227, 207, 0.07);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.badge.red {
+  border-color: rgba(255, 46, 87, 0.4);
+  background: rgba(255, 46, 87, 0.08);
+  color: var(--red);
+}
+
+.divider {
+  height: 1px;
+  background: var(--line-soft);
+  margin: 22px 0;
+}
+
+.foot {
+  margin: 28px 0 40px;
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 13px;
+  color: var(--text-faint);
+  letter-spacing: 0.3px;
+}
+
+.foot code {
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 9.5px;
+  letter-spacing: 2px;
+  color: #3d4d63;
+  text-transform: uppercase;
+}

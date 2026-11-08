@@ -35,12 +35,17 @@ var EscFRUI = (function () {
   function $(sel) { return document.querySelector(sel); }
   function byId(id) { return document.getElementById(id); }
 
+  /* Native callbacks exposed by the shell are host functions: some WebKit
+     builds do not give them Function.prototype.apply, so call them directly. */
   function call(name, args) {
     var fn = window[name];
     if (typeof fn !== 'function') return;
     try {
-      if (args === undefined) fn();
-      else fn.apply(null, args);
+      if (!args || args.length === 0) fn();
+      else if (args.length === 1) fn(args[0]);
+      else if (args.length === 2) fn(args[0], args[1]);
+      else if (args.length === 3) fn(args[0], args[1], args[2]);
+      else if (typeof fn.apply === 'function') fn.apply(null, args);
     } catch (e) {
       console.log('native call failed: ' + name + ' — ' + e);
     }
@@ -514,6 +519,22 @@ var EscFRUI = (function () {
     bindTabs();
     bindToolbar();
     pinViewport();
+
+    setTimeout(function () {
+      var doc = document.documentElement;
+      var tabs = byId('tabs').getBoundingClientRect();
+      var tools = byId('toolbar').getBoundingClientRect();
+      var one = document.querySelector('.tab');
+      var rect = one ? one.getBoundingClientRect() : { left: -1, right: -1 };
+      console.log('METRICS scroll=' + doc.scrollLeft + ',' + doc.scrollTop +
+        ' bodyScroll=' + document.body.scrollLeft +
+        ' scrollWidth=' + doc.scrollWidth + ' clientWidth=' + doc.clientWidth +
+        ' bodyScrollWidth=' + document.body.scrollWidth +
+        ' tabs=' + Math.round(tabs.left) + '-' + Math.round(tabs.right) +
+        ' toolbar=' + Math.round(tools.left) + '-' + Math.round(tools.right) +
+        ' tab1=' + Math.round(rect.left) + '-' + Math.round(rect.right) +
+        ' dpr=' + window.devicePixelRatio);
+    }, 1500);
 
     var clock = new Date();
     var mark = document.querySelector('.strip-mark');

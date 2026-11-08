@@ -224,11 +224,17 @@ void Tab::OnDOMReady(View* caller, uint64_t frame_id, bool is_main_frame, const 
 }
 
 void Tab::OnBeginLoading(View* caller, uint64_t frame_id, bool is_main_frame, const String& url) {
-  ui_->UpdateTabNavigation(id_, caller->is_loading(), caller->CanGoBack(), caller->CanGoForward());
+  // is_loading() is not authoritative inside these callbacks, so send the state
+  // the event itself implies.
+  if (!is_main_frame)
+    return;
+  ui_->UpdateTabNavigation(id_, true, caller->CanGoBack(), caller->CanGoForward());
 }
 
 void Tab::OnFinishLoading(View* caller, uint64_t frame_id, bool is_main_frame, const String& url) {
-  ui_->UpdateTabNavigation(id_, caller->is_loading(), caller->CanGoBack(), caller->CanGoForward());
+  if (!is_main_frame)
+    return;
+  ui_->UpdateTabNavigation(id_, false, caller->CanGoBack(), caller->CanGoForward());
 }
 
 void Tab::OnFailLoading(View* caller, uint64_t frame_id, bool is_main_frame, const String& url,

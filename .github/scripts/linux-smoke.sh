@@ -30,7 +30,7 @@ if ldd ./EscFR 2>/dev/null | grep -q "not found"; then
 fi
 
 DISPLAY_NUM=":99"
-Xvfb "$DISPLAY_NUM" -screen 0 1280x820x24 -nolisten tcp > /tmp/xvfb.log 2>&1 &
+Xvfb "$DISPLAY_NUM" -screen 0 1500x950x24 -nolisten tcp > /tmp/xvfb.log 2>&1 &
 XVFB_PID=$!
 sleep 3
 
@@ -41,6 +41,16 @@ if ! kill -0 "$XVFB_PID" 2>/dev/null; then
 fi
 
 export DISPLAY="$DISPLAY_NUM"
+
+capture() {
+  local shot="$1"
+  local wid
+  wid=$(xdotool search --name "EscFR" 2>/dev/null | head -1)
+  if [[ -n "$wid" ]]; then
+    import -window "$(printf '0x%x' "$wid")" "$shot" > /tmp/import.log 2>&1 && return 0
+  fi
+  import -window root "$shot" >> /tmp/import.log 2>&1
+}
 
 cleanup() {
   [[ -n "${APP_PID:-}" ]] && kill "$APP_PID" 2>/dev/null
@@ -73,7 +83,7 @@ run_case() {
     return
   fi
 
-  import -window root "$shot" > /tmp/import.log 2>&1 || true
+  capture "$shot"
 
   if [[ ! -s "$shot" ]]; then
     echo "FAIL: no screenshot produced for $url"
@@ -127,7 +137,7 @@ interactive_case() {
   echo "--- Ctrl+T (new tab) ---"
   xdotool key --clearmodifiers ctrl+t 2>/dev/null || true
   sleep 3
-  import -window root "escfr-tabs-1.png" > /dev/null 2>&1 || true
+  capture "escfr-tabs-1.png" || true
   echo "--- Ctrl+L + type esc://settings + Enter ---"
   xdotool key --clearmodifiers ctrl+l 2>/dev/null || true
   sleep 1
@@ -136,7 +146,7 @@ interactive_case() {
   xdotool key --clearmodifiers Return 2>/dev/null || true
   sleep 7
 
-  import -window root "$shot" > /tmp/import.log 2>&1 || true
+  capture "$shot"
   grep -iE "console|error|exception|\[page|\[chrome" "$log" 2>/dev/null | head -6 | while IFS= read -r line; do echo "::error::DIAG $line"; done
   if [[ -s "$shot" ]]; then
     echo "screenshot $shot captured"

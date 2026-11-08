@@ -47,6 +47,11 @@ if (PORT MATCHES "UltralightLinux")
     SET(CMAKE_INSTALL_RPATH "$\{ORIGIN\}")
 endif ()
 
+# EscFR is the flagship sample of this repo; ESCFR_ONLY=ON skips everything else
+# (handy for CI and for machines without X11/GLFW dev packages).
+option(ESCFR_ONLY "Build only the EscFR browser sample" OFF)
+
+if (NOT ESCFR_ONLY)
 add_subdirectory("Sample 1 - Render to PNG")
 add_subdirectory("Sample 2 - Basic App")
 add_subdirectory("Sample 3 - Resizable App")
@@ -56,6 +61,9 @@ add_subdirectory("Sample 6 - Intro to C API")
 add_subdirectory("Sample 7 - OpenGL Integration")
 add_subdirectory("Sample 8 - Web Browser")
 add_subdirectory("Sample 9 - Multi Window")
+endif ()
+
+add_subdirectory("Sample 10 - EscFR Browser")
 
 if (${IN_SOURCE_BUILD})
     add_custom_target(
@@ -90,6 +98,9 @@ if (${IN_SOURCE_BUILD})
         )
     endif ()
 
+    add_dependencies(EscFR CopySDK)
+
+if (NOT ESCFR_ONLY)
     add_dependencies(Sample1 CopySDK)
     add_dependencies(Sample2 CopySDK)
     add_dependencies(Sample3 CopySDK)
@@ -99,4 +110,5 @@ if (${IN_SOURCE_BUILD})
     add_dependencies(Sample7 CopySDK)
     add_dependencies(Sample8 CopySDK)
     add_dependencies(Sample9 CopySDK)
+endif ()
 endif ()

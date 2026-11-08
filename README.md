@@ -3,6 +3,21 @@
 
 [Website](https://ultralig.ht) | [Chat on Discord!](https://chat.ultralig.ht) | [Browse C++ API](https://ultralig.ht/api/cpp/1_3_0/) | [Browse C API](https://ultralig.ht/api/c/1_3_0/) | [Support Docs](https://docs.ultralig.ht) | [Twitter](https://twitter.com/ultralight_ux)
 
+## :red_circle: EscFR — a Wired browser built on Ultralight
+
+[`samples/Sample 10 - EscFR Browser`](samples/Sample%2010%20-%20EscFR%20Browser) is a full
+desktop browser built on the Ultralight renderer: Firefox-style chrome (tab strip, pill
+address bar, app menu, preferences page) with a *Wired* skin — wire grid, scanlines,
+cyan/red glitch accents and a `present day, present time` mood.
+
+* multi-tab browsing, history navigation, reload/stop, home page
+* internal pages: `esc://newtab`, `esc://settings`, `esc://about`
+* persisted settings, DOM inspector (Ctrl+Shift+I), keyboard shortcuts
+* bundled fonts, no network requests from the chrome
+
+Build it with `cmake -S samples -B build -G Ninja -DESCFR_ONLY=ON && cmake --build build --target EscFR`,
+or grab the Linux/Windows binaries produced by the [Build EscFR](.github/workflows/build-escfr.yml) workflow.
+
 ## :video_game: Discord Chat
 
 Got a question about Ultralight? [<strong>Chat with us on Discord!</strong> <img src="media/discord-logo.svg">](https://chat.ultralig.ht)

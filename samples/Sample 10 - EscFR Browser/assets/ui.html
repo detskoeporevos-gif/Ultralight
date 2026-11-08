@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <title>EscFR</title>
+  <link rel="stylesheet" type="text/css" href="ui.css">
+  <script src="anchorme.js"></script>
+  <script src="ui.js"></script>
+</head>
+
+<body>
+  <!-- icon sprite -->
+  <svg style="display:none" aria-hidden="true">
+    <defs>
+      <symbol id="i-back" viewBox="0 0 16 16">
+        <path d="M6.7 2.3 1.6 7.4a.9.9 0 0 0 0 1.2l5.1 5.1 1.2-1.2-3-3h9v-1.7h-9l3-3-1.2-1.2z" />
+      </symbol>
+      <symbol id="i-forward" viewBox="0 0 16 16">
+        <path d="M9.3 2.3 8.1 3.5l3 3h-9v1.7h9l-3 3 1.2 1.2 5.1-5.1a.9.9 0 0 0 0-1.2L9.3 2.3z" />
+      </symbol>
+      <symbol id="i-reload" viewBox="0 0 16 16">
+        <path d="M8 2a6 6 0 1 0 5.7 7.9h-1.8A4.2 4.2 0 1 1 8 3.8c1 0 1.9.4 2.6 1H8.8v1.7h4.7V1.8h-1.7v1.4A5.9 5.9 0 0 0 8 2z" />
+      </symbol>
+      <symbol id="i-stop" viewBox="0 0 16 16">
+        <path d="M4 4h8v8H4z" />
+      </symbol>
+      <symbol id="i-home" viewBox="0 0 16 16">
+        <path d="M8 1.8 1.3 7.5l1.1 1.3L3.4 8v6h3.3V9.9h2.6V14h3.3V8l1 0.8 1.1-1.3L8 1.8z" />
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 16 16">
+        <path d="M8 1 2.6 3v5.1c0 3.2 2.1 5.6 5.4 6.9 3.3-1.3 5.4-3.7 5.4-6.9V3L8 1Zm0 1.8 3.7 1.4v3.9c0 2.2-1.3 4-3.7 5.1-2.4-1.1-3.7-2.9-3.7-5.1V4.2L8 2.8Z" />
+      </symbol>
+      <symbol id="i-star" viewBox="0 0 16 16">
+        <path d="M8 1.7l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.5l-3.8 2 .7-4.3-3.1-3 4.3-.6L8 1.7z" />
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 16 16">
+        <path d="M2 4h12v1.8H2zM2 7.1h12v1.8H2zM2 10.2h12V12H2z" />
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 16 16">
+        <path d="M7.1 2h1.8v5.1H14v1.8H8.9V14H7.1V8.9H2V7.1h5.1V2z" />
+      </symbol>
+      <symbol id="i-tools" viewBox="0 0 16 16">
+        <path d="M8.9 2.2a3.8 3.8 0 0 1 4.6 5l-7 7a1.6 1.6 0 0 1-2.3-2.3l7-7a3.8 3.8 0 0 1-2.3-2.7ZM2.6 11a.8.8 0 1 0 1.1 1.1l5.5-5.5-1.1-1.1L2.6 11Z" />
+      </symbol>
+      <symbol id="i-settings" viewBox="0 0 16 16">
+        <path d="M8 5.3A2.7 2.7 0 1 0 8 10.7 2.7 2.7 0 0 0 8 5.3Zm6 3.9v-2.4l-1.9-.4a4.4 4.4 0 0 0-.6-1.4l1.1-1.6-1.7-1.7-1.6 1.1a4.4 4.4 0 0 0-1.4-.6L7.5 2h-2.4l-.4 1.9a4.4 4.4 0 0 0-1.4.6L1.7 3.4 0 5.1l1.1 1.6a4.4 4.4 0 0 0-.6 1.4L-1.4 8.5v2.4l1.9.4c.1.5.3 1 .6 1.4l-1.1 1.6 1.7 1.7 1.6-1.1c.4.3.9.5 1.4.6l.4 1.9h2.4l.4-1.9c.5-.1 1-.3 1.4-.6l1.6 1.1 1.7-1.7-1.1-1.6c.3-.4.5-.9.6-1.4l1.9-.4Z" />
+      </symbol>
+      <symbol id="i-history" viewBox="0 0 16 16">
+        <path d="M8 2a6 6 0 1 0 5.6 8.1h-1.8A4.2 4.2 0 1 1 8 3.8c1.1 0 2 .4 2.7 1.1H8.5v1.8h4.7V2h-1.8v1.6A6 6 0 0 0 8 2Zm-.9 2.6v4l3.2 1.9.8-1.3-2.3-1.4V4.6H7.1Z" />
+      </symbol>
+      <symbol id="i-book" viewBox="0 0 16 16">
+        <path d="M3 2.4h4.3c.6 0 1 .2 1.4.6.4-.4.8-.6 1.4-.6H14v10.2h-3.7c-.6 0-1 .2-1.4.6-.4-.4-.8-.6-1.4-.6H2.4V2.4H3Zm1.4 1.4v7.4h2.3c.5 0 .9.1 1.3.4V4.7c-.4-.6-.9-.9-1.5-.9H4.4Zm5 0c-.5 0-1 .2-1.4.6v6.9c.4-.3.8-.4 1.3-.4h2.4V3.8h-2.3Z" />
+      </symbol>
+      <symbol id="i-info" viewBox="0 0 16 16">
+        <path d="M8 1.4A6.6 6.6 0 1 0 8 14.6 6.6 6.6 0 0 0 8 1.4Zm0 1.8a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2Zm1 9.4H7V6.9h2v5.7Z" />
+      </symbol>
+      <symbol id="i-power" viewBox="0 0 16 16">
+        <path d="M7.2 2h1.7v6.1H7.2V2Zm4.5 1.4 1.2 1.2a5.2 5.2 0 1 1-9.8 2.3c0-1.4.6-2.7 1.5-3.6l1.2-1.2-1.2-1.2A7 7 0 1 0 12.9 4.7l-1.2-1.3Z" />
+      </symbol>
+      <symbol id="i-print" viewBox="0 0 16 16">
+        <path d="M4.5 1.8h7v2.6h-7V1.8Zm-2 3.1h11a1.4 1.4 0 0 1 1.4 1.4v4.2h-2.4v-2.3H3.5v2.3H2.1V6.3A1.4 1.4 0 0 1 3.5 4.9Zm2 4.9h5v4.4h-5V9.8Z" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <div id="chrome">
+    <div id="tabstrip">
+      <div id="tabs"></div>
+      <button id="new-tab" title="Новая вкладка — Ctrl+T">
+        <svg><use xlink:href="#i-plus" /></svg>
+      </button>
+    </div>
+
+    <div id="toolbar">
+      <button class="tb" id="back" title="Назад — Alt+←">
+        <svg><use xlink:href="#i-back" /></svg>
+      </button>
+      <button class="tb" id="forward" title="Вперёд — Alt+→">
+        <svg><use xlink:href="#i-forward" /></svg>
+      </button>
+      <button class="tb" id="reload" title="Обновить — Ctrl+R">
+        <svg><use xlink:href="#i-reload" /></svg>
+      </button>
+      <button class="tb" id="stop" hidden title="Остановить — Esc">
+        <svg><use xlink:href="#i-stop" /></svg>
+      </button>
+      <button class="tb" id="home" title="Домашняя страница">
+        <svg><use xlink:href="#i-home" /></svg>
+      </button>
+
+      <div id="urlwrap">
+        <span id="shield" title="EscFR Protect">
+          <svg><use xlink:href="#i-shield" /></svg>
+        </span>
+        <input id="address" type="text" spellcheck="false" autocomplete="off"
+          placeholder="Введите адрес или поисковый запрос" />
+        <span id="star" title="Добавить в закладки">
+          <svg><use xlink:href="#i-star" /></svg>
+        </span>
+      </div>
+
+      <button class="tb" id="toggle-tools" title="Инспектор — Ctrl+Shift+I">
+        <svg><use xlink:href="#i-tools" /></svg>
+      </button>
+      <button class="tb" id="menu-btn" title="Меню EscFR">
+        <svg><use xlink:href="#i-menu" /></svg>
+      </button>
+
+      <div id="progress"><div id="progress-bar"></div></div>
+    </div>
+  </div>
+
+  <div id="scrim" hidden></div>
+
+  <div id="menu" hidden>
+    <div class="menu-head">
+      <svg class="menu-logo" viewBox="0 0 64 64">
+        <circle cx="32" cy="32" r="29" fill="none" stroke="#2c2c31" stroke-width="2" />
+        <path d="M32 6a26 26 0 0 1 22.5 39" fill="none" stroke="#9c9ca4" stroke-width="3.2"
+          stroke-linecap="round" />
+        <path d="M32 58A26 26 0 0 1 9.5 19" fill="none" stroke="#e6e6ea" stroke-width="3.2"
+          stroke-linecap="round" />
+        <path d="M32 14a18 18 0 1 1-12.7 30.7" fill="none" stroke="#b0b0b8" stroke-width="2.6"
+          stroke-linecap="round" opacity="0.9" />
+        <path d="M21 25.5h18v4.2H25.6v6H37v4.2H25.6v6.6h13.6v4.2H21V25.5Z" fill="#f0f0f2" />
+      </svg>
+      <div class="who">
+        <b class="glitch" data-text="EscFR 1.0">EscFR 1.0</b>
+        <span>Ultralight · версия 1.0</span>
+      </div>
+    </div>
+
+    <div class="mi" data-act="newtab">
+      <svg><use xlink:href="#i-plus" /></svg>Новая вкладка<span class="kbd">Ctrl+T</span>
+    </div>
+    <div class="mi" data-act="keys">
+      <svg><use xlink:href="#i-book" /></svg>Горячие клавиши<span class="kbd">F1</span>
+    </div>
+    <div class="mi" data-act="tools">
+      <svg><use xlink:href="#i-tools" /></svg>Инспектор<span class="kbd">Ctrl+Shift+I</span>
+    </div>
+    <div class="menu-sep"></div>
+    <div class="mi" data-act="settings">
+      <svg><use xlink:href="#i-settings" /></svg>Настройки<span class="kbd">Ctrl+,</span>
+    </div>
+    <div class="mi" data-act="about">
+      <svg><use xlink:href="#i-info" /></svg>О EscFR<span class="kbd">esc://about</span>
+    </div>
+    <div class="mi danger" data-act="quit">
+      <svg><use xlink:href="#i-power" /></svg>Выход<span class="kbd">Ctrl+Q</span>
+    </div>
+    <div class="menu-foot">
+      <span>EscFR 1.0</span>
+      <code>ultralight 1.3</code>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    EscFRUI.init();
+  </script>
+</body>
+
+</html>

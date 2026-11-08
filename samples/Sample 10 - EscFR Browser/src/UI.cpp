@@ -397,13 +397,15 @@ void UI::CreateNewTab(const String& url) {
   if (escfr::ToStd(resolved).empty())
     resolved = target;
 
-  tabs_[id]->view()->LoadURL(resolved);
-  tabs_[id]->Show();
-
+  // Tell the chrome about the tab *before* loading: local pages can finish
+  // loading synchronously, and those callbacks must find the tab in JS.
   if (chrome_ready_) {
     addTab({ id, String("Новая вкладка"), resolved, true });
     setActiveTab({ id });
   }
+
+  tabs_[id]->view()->LoadURL(resolved);
+  tabs_[id]->Show();
 
   SetLoading(true);
   SetURL(resolved);
@@ -427,13 +429,13 @@ RefPtr<View> UI::CreateNewTabForChildView(const String& url) {
   if (escfr::ToStd(resolved).empty())
     resolved = url;
 
-  tabs_[id]->view()->LoadURL(resolved);
-  tabs_[id]->Show();
-
   if (chrome_ready_) {
     addTab({ id, String("Новая вкладка"), resolved, true });
     setActiveTab({ id });
   }
+
+  tabs_[id]->view()->LoadURL(resolved);
+  tabs_[id]->Show();
 
   return tabs_[id]->view();
 }

@@ -22,6 +22,7 @@ endif()
 if (MSVC)
   # Tell MSVC to use main instead of WinMain for Windows subsystem executables
   set_target_properties(${APP_NAME} PROPERTIES LINK_FLAGS "/ENTRY:mainCRTStartup")
+  target_compile_definitions(${APP_NAME} PRIVATE _CRT_SECURE_NO_WARNINGS)
 endif()
 
 # Copy all binaries to target directory

@@ -628,8 +628,8 @@ bool UI::OnKeyEvent(const ultralight::KeyEvent& evt) {
 
 bool UI::OnMouseEvent(const ultralight::MouseEvent& evt) {
   if (active_tab() && active_tab()->IsInspectorShowing()) {
-    float x_px = std::round(evt.x * window()->scale());
-    float y_px = std::round(evt.y * window()->scale());
+    float x_px = (float)std::round(evt.x * window()->scale());
+    float y_px = (float)std::round(evt.y * window()->scale());
 
     if (is_resizing_inspector_) {
       int resize_delta = inspector_resize_begin_mouse_y_ - (int)y_px;

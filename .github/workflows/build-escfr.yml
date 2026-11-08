@@ -41,6 +41,17 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release \
             -DESCFR_ONLY=ON
 
+      - name: Dump Ultralight string headers (diagnostics)
+        if: always()
+        shell: bash
+        run: |
+          HDR=$(find build -path "*Ultralight/String.h" | head -1)
+          echo "header: $HDR"
+          if [ -n "$HDR" ]; then
+            grep -vE '^\s*(//|\*|/\*)' "$HDR" | tr '\n' ' ' | cut -c1-9000 | fold -w 950 | head -9 | nl -ba -s' | ' | while IFS= read -r line; do echo "::error::$line"; done
+          fi
+          export HDR
+
       - name: Build EscFR
         id: build
         continue-on-error: true

@@ -522,11 +522,6 @@ var EscFRUI = (function () {
     bindToolbar();
     pinViewport();
 
-
-    var clock = new Date();
-    var mark = document.querySelector('.strip-mark');
-    if (mark) mark.title = clock.toISOString().replace('T', ' ').substring(0, 16) + ' UTC';
-
     /* Settings are pushed in by the shell right after DOM ready; ask once
        more in case the shell was faster than us. */
     call('OnRequestSettings');

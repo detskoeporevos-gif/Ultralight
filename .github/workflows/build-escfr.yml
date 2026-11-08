@@ -161,7 +161,7 @@ jobs:
           if (-not (Test-Path $app)) { throw "EscFR.exe was not produced" }
           Get-Item $app | Format-List Name, Length
           $assets = "build/$env:ESCFR_APP_DIR/assets"
-          foreach ($f in @('ui.html', 'ui.css', 'ui.js', 'wired.css', 'new_tab_page.html', 'settings.html', 'about.html')) {
+          foreach ($f in @('ui.html', 'ui.css', 'ui.js', 'shell.css', 'new_tab_page.html', 'settings.html', 'about.html')) {
             if (-not (Test-Path (Join-Path $assets $f))) { throw "missing asset: $f" }
           }
           Get-ChildItem "build/$env:ESCFR_APP_DIR" | Select-Object Name, Length

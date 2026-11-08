@@ -8,7 +8,9 @@ set -uo pipefail
 APP_DIR="${1:-}"
 if [[ -z "$APP_DIR" || ! -x "$APP_DIR/EscFR" ]]; then
   echo "::error::EscFR binary not found in '$APP_DIR'"
-  ls -la "$APP_DIR" 2>/dev/null || true
+  ls -la "$APP_DIR" 2>/dev/null | head -8 | while IFS= read -r line; do echo "::error::dir: $line"; done
+  find build "/home/runner/work/Ultralight/Ultralight/build" -maxdepth 4 -name 'EscFR*' 2>/dev/null | head -6 | while IFS= read -r line; do echo "::error::found: $line"; done
+  find . -maxdepth 4 -name 'EscFR*' 2>/dev/null | head -6 | while IFS= read -r line; do echo "::error::local: $line"; done
   exit 1
 fi
 

@@ -271,8 +271,8 @@ body::before {
 }
 
 @keyframes fav-pulse {
-  0%, 100% { border-color: #2f4460; color: var(--cyan); }
-  50% { border-color: var(--cyan); color: #061014; background: var(--cyan); }
+  0%, 100% { border-color: #2f4460; }
+  50% { border-color: var(--cyan); box-shadow: 0 0 6px rgba(51, 227, 207, 0.45); }
 }
 
 .tab.active {

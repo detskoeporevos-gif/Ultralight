@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: escfr-${{ github.ref }}
@@ -74,6 +74,23 @@ jobs:
             EscFR assets $(ls *.so* 2>/dev/null || true)
           cd "$GITHUB_WORKSPACE"
           ls -lh dist
+
+      - name: Publish screenshots to the branch
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          set -e
+          mkdir -p "samples/Sample 10 - EscFR Browser/screenshots"
+          cp "build/${ESCFR_APP_DIR}"/escfr-*.png "samples/Sample 10 - EscFR Browser/screenshots/"
+          git config user.name "EscFR CI"
+          git config user.email "ci@users.noreply.github.com"
+          git add "samples/Sample 10 - EscFR Browser/screenshots"
+          if git diff --cached --quiet; then
+            echo "screenshots unchanged"
+            exit 0
+          fi
+          git commit -m "docs: refresh EscFR screenshots [skip ci]"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
 
       - name: Upload Linux artifacts
         uses: actions/upload-artifact@v4

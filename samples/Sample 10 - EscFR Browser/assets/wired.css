@@ -668,3 +668,65 @@ body {
 .brand {
   margin-bottom: 30px !important;
 }
+
+/* ---- buttons, labels, sidebars ---- */
+.btn {
+  background: #141416 !important;
+  border: 1px solid #2c2c2c !important;
+  color: #e8e8ea !important;
+  border-radius: 7px !important;
+  box-shadow: none !important;
+}
+
+.btn:hover {
+  background: #1e1e20 !important;
+  border-color: #3a3a3a !important;
+}
+
+.btn.primary {
+  background: #e8e8ea !important;
+  border-color: #e8e8ea !important;
+  color: #0b0b0d !important;
+  font-weight: 600 !important;
+}
+
+.btn.primary:hover {
+  background: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+section.group > h2 {
+  font-family: var(--ui) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: #8a8a8a !important;
+}
+
+nav.side a.active {
+  background: #1a1a1c !important;
+  background-image: none !important;
+  color: #ffffff !important;
+}
+
+.side-note {
+  border: none !important;
+  padding-left: 0 !important;
+  background: transparent !important;
+}
+
+.search .engine {
+  border: none !important;
+  padding: 0 !important;
+}
+
+.keys td {
+  border-color: #232323 !important;
+}
+
+.kbd {
+  background: #161618 !important;
+  border: 1px solid #2c2c2c !important;
+  color: #c8c8c8 !important;
+}

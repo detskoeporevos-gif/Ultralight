@@ -210,7 +210,7 @@ var EscFRUI = (function () {
     id = String(id);
     var tab = state.tabs[id];
     if (!tab) return false;
-    tab.url = url;
+    if (url) tab.url = url;
     var el = document.querySelector('[data-tab-id="' + id + '"]');
     if (el) paintTab(el, tab);
     updateNavigation(tab);
@@ -265,7 +265,7 @@ var EscFRUI = (function () {
     updateShield(url);
     var tab = activeTab();
     if (tab) {
-      tab.url = url;
+      if (url) tab.url = url;
       var el = document.querySelector('[data-tab-id="' + tab.id + '"]');
       if (el) paintTab(el, tab);
     }
@@ -520,21 +520,6 @@ var EscFRUI = (function () {
     bindToolbar();
     pinViewport();
 
-    setTimeout(function () {
-      var doc = document.documentElement;
-      var tabs = byId('tabs').getBoundingClientRect();
-      var tools = byId('toolbar').getBoundingClientRect();
-      var one = document.querySelector('.tab');
-      var rect = one ? one.getBoundingClientRect() : { left: -1, right: -1 };
-      console.log('METRICS scroll=' + doc.scrollLeft + ',' + doc.scrollTop +
-        ' bodyScroll=' + document.body.scrollLeft +
-        ' scrollWidth=' + doc.scrollWidth + ' clientWidth=' + doc.clientWidth +
-        ' bodyScrollWidth=' + document.body.scrollWidth +
-        ' tabs=' + Math.round(tabs.left) + '-' + Math.round(tabs.right) +
-        ' toolbar=' + Math.round(tools.left) + '-' + Math.round(tools.right) +
-        ' tab1=' + Math.round(rect.left) + '-' + Math.round(rect.right) +
-        ' dpr=' + window.devicePixelRatio);
-    }, 1500);
 
     var clock = new Date();
     var mark = document.querySelector('.strip-mark');

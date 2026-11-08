@@ -1,4 +1,4 @@
-# EscFR — Wired browser on Ultralight
+# EscFR — graphite browser on Ultralight
 
 [![Build EscFR](https://github.com/detskoeporevos-gif/Ultralight/actions/workflows/build-escfr.yml/badge.svg)](https://github.com/detskoeporevos-gif/Ultralight/actions/workflows/build-escfr.yml)
 
@@ -8,8 +8,8 @@ DOM inspector are wired to C++ through Ultralight's JS bridge.
 
 * **Shell geometry** — Firefox: tab strip, rounded address bar with shield, app menu,
   `about:preferences`-style settings with a sidebar and switch rows.
-* **Skin** — *Wired* (`Serial Experiments Lain`): deep navy, wire grid, scanlines,
-  cyan/red glitch accents, EB Garamond quotes, `present day, present time`.
+* **Skin** — graphite: near-black surfaces (#0b0b0d–#1a1a1c), hairline borders,
+  one light accent, no gradients, no glow. Inter throughout.
 * **Internal pages** — `esc://newtab`, `esc://settings`, `esc://about`.
 * **Persistence** — settings live in `escfr-settings.json` next to `assets/`.
 

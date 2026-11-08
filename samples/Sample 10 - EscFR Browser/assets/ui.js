@@ -163,9 +163,20 @@ var EscFRUI = (function () {
     return state.activeId === null ? null : state.tabs[state.activeId];
   }
 
+  function debugTabs() {
+    var out = [];
+    state.order.forEach(function (id) {
+      var el = document.querySelector('[data-tab-id="' + id + '"]');
+      var fav = el ? el.querySelector('.fav') : null;
+      out.push(id + '[' + (el ? el.className : '-') + '][' + (fav ? fav.className : '-') + ']url=' + state.tabs[id].url);
+    });
+    console.log('TABS ' + out.join(' | '));
+  }
+
   function updateStripMark() {
     var n = state.order.length;
     byId('clock').textContent = (n < 10 ? '0' : '') + n;
+    debugTabs();
   }
 
   function updateNavigation(tab) {

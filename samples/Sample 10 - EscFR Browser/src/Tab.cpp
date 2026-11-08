@@ -228,12 +228,16 @@ void Tab::OnBeginLoading(View* caller, uint64_t frame_id, bool is_main_frame, co
   // the event itself implies.
   if (!is_main_frame)
     return;
+  std::printf("[tab %llu] begin %s\n", (unsigned long long)id_, escfr::ToStd(url).c_str());
+  std::fflush(stdout);
   ui_->UpdateTabNavigation(id_, true, caller->CanGoBack(), caller->CanGoForward());
 }
 
 void Tab::OnFinishLoading(View* caller, uint64_t frame_id, bool is_main_frame, const String& url) {
   if (!is_main_frame)
     return;
+  std::printf("[tab %llu] finish %s\n", (unsigned long long)id_, escfr::ToStd(url).c_str());
+  std::fflush(stdout);
   ui_->UpdateTabNavigation(id_, false, caller->CanGoBack(), caller->CanGoForward());
 }
 

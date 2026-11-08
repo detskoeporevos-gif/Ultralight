@@ -147,7 +147,7 @@ interactive_case() {
   sleep 7
 
   capture "$shot"
-  grep -iE "failed|error|exception|TABS|LOADING" "$log" 2>/dev/null | tail -8 | while IFS= read -r line; do echo "::error::DIAG $line"; done
+  grep -iE "failed|error|exception|TABS|LOADING|\[tab " "$log" 2>/dev/null | tail -8 | while IFS= read -r line; do echo "::error::DIAG $line"; done
   if [[ -s "$shot" ]]; then
     echo "screenshot $shot captured"
     identify "$shot" 2>&1 || true

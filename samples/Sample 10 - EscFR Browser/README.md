@@ -1,5 +1,7 @@
 # EscFR — Wired browser on Ultralight
 
+[![Build EscFR](https://github.com/detskoeporevos-gif/Ultralight/actions/workflows/build-escfr.yml/badge.svg)](https://github.com/detskoeporevos-gif/Ultralight/actions/workflows/build-escfr.yml)
+
 `EscFR` is a desktop browser built on the **Ultralight** renderer. The window chrome is
 plain HTML/CSS/JS drawn by an overlay View; tabs, navigation, settings and the
 DOM inspector are wired to C++ through Ultralight's JS bridge.

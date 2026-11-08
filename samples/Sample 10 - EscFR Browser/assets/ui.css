@@ -111,6 +111,8 @@
 html,
 body {
   height: 88px;
+  width: 100%;
+  overflow: hidden;
   background: var(--strip);
   color: var(--text);
   font-family: var(--ui);

@@ -458,19 +458,19 @@ var EscFRUI = (function () {
     });
 
     address.addEventListener('keydown', function (ev) {
-      if (ev.key === 'Escape') {
+      if (ev.key === 'Escape' || ev.keyCode === 27) {
         address.blur();
         call('OnFocusContent');
         ev.preventDefault();
+        return;
       }
-    });
 
-    address.addEventListener('keypress', function (ev) {
-      if (ev.keyCode !== 13 && ev.key !== 'Enter') return;
-      var url = normaliseInput(address.value);
-      address.blur();
-      if (url) call('OnRequestChangeURL', [url]);
-      ev.preventDefault();
+      if (ev.key === 'Enter' || ev.keyCode === 13) {
+        var url = normaliseInput(address.value);
+        address.blur();
+        if (url) call('OnRequestChangeURL', [url]);
+        ev.preventDefault();
+      }
     });
 
     byId('address').addEventListener('mouseup', function () {
@@ -495,9 +495,25 @@ var EscFRUI = (function () {
     });
   }
 
+  /* WebKit occasionally "scrolls" an overflow:hidden document when the
+     address bar is focused. The chrome must stay pinned at 0,0. */
+  function pinViewport() {
+    function reset() {
+      var doc = document.documentElement;
+      if (doc.scrollLeft !== 0) doc.scrollLeft = 0;
+      if (doc.scrollTop !== 0) doc.scrollTop = 0;
+      if (document.body.scrollLeft !== 0) document.body.scrollLeft = 0;
+      if (document.body.scrollTop !== 0) document.body.scrollTop = 0;
+    }
+    window.addEventListener('scroll', reset, true);
+    document.addEventListener('scroll', reset, true);
+    setInterval(reset, 200);
+  }
+
   function init() {
     bindTabs();
     bindToolbar();
+    pinViewport();
 
     var clock = new Date();
     var mark = document.querySelector('.strip-mark');

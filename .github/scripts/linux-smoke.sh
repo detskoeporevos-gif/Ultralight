@@ -133,7 +133,7 @@ interactive_case() {
   xdotool type --delay 40 "esc://settings" 2>/dev/null || true
   sleep 1
   xdotool key --clearmodifiers Return 2>/dev/null || true
-  sleep 5
+  sleep 7
 
   import -window root "$shot" > /tmp/import.log 2>&1 || true
   if [[ -s "$shot" ]]; then

@@ -13,6 +13,10 @@ jobs:
   headers:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        hdr: [String8, String16, JSValue, KeyEvent, View, Overlay, String32]
     steps:
       - uses: actions/checkout@v4
 
@@ -27,32 +31,16 @@ jobs:
       - name: Fetch SDK headers
         run: cmake --build build --target CopySDK
 
-      - name: Dump String header
+      - name: Dump header
         if: always()
         shell: bash
         run: |
-          HDR=$(find build -name 'String.h' -path '*Ultralight*' | head -1)
+          HDR=$(find build/SDK/include -name "${{ matrix.hdr }}.h" | head -1)
           echo "found: $HDR"
           if [ -z "$HDR" ]; then
-            find build -maxdepth 3 -type d | head -30 | while IFS= read -r line; do echo "::error::dir $line"; done
+            find build/SDK/include -name '*.h' | head -20 | while IFS= read -r line; do echo "::error::file $line"; done
             exit 0
           fi
-          grep -vE '^\s*(//|\*|/\*)' "$HDR" | tr '\n' ' ' | sed 's/  */ /g' | fold -w 900 | head -9 | nl -ba | while IFS= read -r line; do
-            echo "::error::L$line"
+          grep -vE '^\s*(//|\*|/\*)' "$HDR" | tr '\n' ' ' | sed 's/  */ /g' | fold -w 880 | head -9 | nl -ba | while IFS= read -r line; do
+            echo "::error::${{ matrix.hdr }}|$line"
           done
-
-      - name: Archive headers
-        if: always()
-        run: |
-          mkdir -p out
-          if [ -d build/SDK/include ]; then
-            tar -czf out/ultralight-headers.tar.gz -C build/SDK/include .
-          fi
-          ls -la out
-
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: ultralight-headers
-          path: out/ultralight-headers.tar.gz
-          if-no-files-found: warn

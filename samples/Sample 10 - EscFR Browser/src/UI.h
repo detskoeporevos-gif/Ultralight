@@ -71,6 +71,9 @@ public:
   void UpdateTabTitle(uint64_t id, const String& title);
   void UpdateTabURL(uint64_t id, const String& url);
   void UpdateTabNavigation(uint64_t id, bool is_loading, bool can_go_back, bool can_go_forward);
+
+  // History-only refresh: navigation buttons, never the loading flag.
+  void UpdateTabHistory(uint64_t id, bool can_go_back, bool can_go_forward);
   void BindInternalPage(Tab* tab, const String& url);
   RefPtr<View> CreateNewTabForChildView(const String& url);
   void SetCursor(Cursor cursor);

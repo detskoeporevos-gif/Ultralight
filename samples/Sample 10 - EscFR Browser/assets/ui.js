@@ -208,6 +208,7 @@ var EscFRUI = (function () {
     if (!tab) return false;
     if (title) tab.title = title;
     if (typeof url === 'string' && url) tab.url = url;
+    if (!!loading !== tab.loading) console.log('LOADING ' + id + '=' + loading);
     tab.loading = !!loading;
 
     var el = document.querySelector('[data-tab-id="' + id + '"]');

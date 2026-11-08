@@ -463,6 +463,17 @@ void UI::UpdateTabURL(uint64_t id, const String& url) {
     SetURL(url);
 }
 
+void UI::UpdateTabHistory(uint64_t id, bool can_go_back, bool can_go_forward) {
+  if (tabs_.find(id) == tabs_.end())
+    return;
+
+  if (id != active_tab_id_)
+    return;
+
+  if (chrome_ready_)
+    setNavigationState({ can_go_back, can_go_forward });
+}
+
 void UI::UpdateTabNavigation(uint64_t id, bool is_loading, bool can_go_back, bool can_go_forward) {
   if (tabs_.find(id) == tabs_.end())
     return;

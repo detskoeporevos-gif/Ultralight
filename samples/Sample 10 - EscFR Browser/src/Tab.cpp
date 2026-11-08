@@ -248,5 +248,5 @@ void Tab::OnFailLoading(View* caller, uint64_t frame_id, bool is_main_frame, con
 }
 
 void Tab::OnUpdateHistory(View* caller) {
-  ui_->UpdateTabNavigation(id_, caller->is_loading(), caller->CanGoBack(), caller->CanGoForward());
+  ui_->UpdateTabHistory(id_, caller->CanGoBack(), caller->CanGoForward());
 }

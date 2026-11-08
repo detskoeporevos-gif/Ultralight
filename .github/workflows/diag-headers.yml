@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        hdr: [String8, String16, JSValue, KeyEvent, View, Overlay, String32]
+        hdr: [JavaScript, JSHelpers, KeyCodes]
     steps:
       - uses: actions/checkout@v4
 

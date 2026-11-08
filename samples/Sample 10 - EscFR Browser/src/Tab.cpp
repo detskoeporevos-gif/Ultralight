@@ -1,5 +1,6 @@
 #include "Tab.h"
 #include "UI.h"
+#include "StringUtil.h"
 
 #include <cmath>
 #include <cstdio>
@@ -230,8 +231,9 @@ void Tab::OnFailLoading(View* caller, uint64_t frame_id, bool is_main_frame, con
   if (!is_main_frame)
     return;
 
-  std::string html = ErrorPageHTML(url.utf8(), description.utf8(), error_domain.utf8(), error_code);
-  view()->LoadHTML(String(html.c_str()));
+  std::string html = ErrorPageHTML(escfr::ToStd(url), escfr::ToStd(description),
+                                   escfr::ToStd(error_domain), error_code);
+  view()->LoadHTML(escfr::FromStd(html));
 }
 
 void Tab::OnUpdateHistory(View* caller) {

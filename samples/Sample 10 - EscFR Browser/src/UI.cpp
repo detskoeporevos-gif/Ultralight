@@ -1,5 +1,6 @@
 #include "UI.h"
 #include "AppSettings.h"
+#include "StringUtil.h"
 
 #include <algorithm>
 #include <cmath>
@@ -56,7 +57,7 @@ UI::UI(RefPtr<Window> window) : window_(window), cur_cursor_(Cursor::kCursor_Poi
   if (tab_height_ < 1)
     tab_height_ = 1;
 
-  assets_path_ = App::instance()->settings().file_system_path.utf8();
+  assets_path_ = escfr::ToStd(App::instance()->settings().file_system_path);
   settings_json_ = escfr::LoadSettingsJSON(assets_path_);
 
   // Optional: ESCFR_START_URL=esc://settings makes the app open that page on
@@ -245,7 +246,8 @@ void UI::OnRequestChangeURL(const JSObject& obj, const JSArgs& args) {
     return;
 
   String url = args[0];
-  NavigateActiveTab(url.utf8().c_str());
+  std::string url_text = escfr::ToStd(url);
+  NavigateActiveTab(url_text.c_str());
 }
 
 void UI::OnQueryNavigationState(const JSObject& obj, const JSArgs& args) {
@@ -289,7 +291,7 @@ void UI::BindInternalPage(Tab* tab, const String& url) {
   global["escFRToast"] = BindJSCallback(&UI::OnPageToast);
   global["escFRQuit"] = BindJSCallback(&UI::OnPageQuit);
 
-  std::string page = url.utf8();
+  std::string page = escfr::ToStd(url);
   bool wants_init = page.find("new_tab_page.html") != std::string::npos ||
                     page.find("settings.html") != std::string::npos;
   if (!wants_init)
@@ -297,7 +299,7 @@ void UI::BindInternalPage(Tab* tab, const String& url) {
 
   std::string script = "if (typeof __escFRInit === 'function') { __escFRInit(\"" +
                        EscapeJSString(settings_json_) + "\"); }";
-  page_view->EvaluateScript(String(script.c_str()));
+  page_view->EvaluateScript(escfr::FromStd(script));
 }
 
 void UI::OnPageSaveSettings(const JSObject& obj, const JSArgs& args) {
@@ -305,7 +307,7 @@ void UI::OnPageSaveSettings(const JSObject& obj, const JSArgs& args) {
     return;
 
   String json_value = args[0];
-  std::string json = json_value.utf8();
+  std::string json = escfr::ToStd(json_value);
 
   if (!escfr::SaveSettingsJSON(assets_path_, json)) {
     ShowToast("Не удалось сохранить настройки");
@@ -322,7 +324,8 @@ void UI::OnPageNavigate(const JSObject& obj, const JSArgs& args) {
     return;
 
   String url = args[0];
-  NavigateActiveTab(url.utf8().c_str());
+  std::string url_text = escfr::ToStd(url);
+  NavigateActiveTab(url_text.c_str());
 }
 
 void UI::OnPageNewTab(const JSObject& obj, const JSArgs& args) {
@@ -350,8 +353,10 @@ void UI::OnPageToggleDevtools(const JSObject& obj, const JSArgs& args) {
 }
 
 void UI::OnPageToast(const JSObject& obj, const JSArgs& args) {
-  if (args.size() == 1)
-    ShowToast(args[0]);
+  if (args.size() == 1) {
+    String message = args[0];
+    ShowToast(message);
+  }
 }
 
 void UI::OnPageQuit(const JSObject& obj, const JSArgs& args) {
@@ -377,11 +382,11 @@ void UI::CreateNewTab(const String& url) {
   active_tab_id_ = id;
 
   String target = url;
-  if (target.utf8().empty())
+  if (escfr::ToStd(target).empty())
     target = String("esc://newtab");
 
   String resolved = ResolveURL(target);
-  if (resolved.utf8().empty())
+  if (escfr::ToStd(resolved).empty())
     resolved = target;
 
   tabs_[id]->view()->LoadURL(resolved);
@@ -411,7 +416,7 @@ RefPtr<View> UI::CreateNewTabForChildView(const String& url) {
   active_tab_id_ = id;
 
   String resolved = ResolveURL(url);
-  if (resolved.utf8().empty())
+  if (escfr::ToStd(resolved).empty())
     resolved = url;
 
   tabs_[id]->view()->LoadURL(resolved);
@@ -433,7 +438,7 @@ void UI::UpdateTabTitle(uint64_t id, const String& title) {
     updateTab({ id, title, String(), tabs_[id]->view()->is_loading() });
 
   if (id == active_tab_id_) {
-    std::string window_title = title.utf8();
+    std::string window_title = escfr::ToStd(title);
     window_title = window_title.empty() ? "EscFR" : window_title + " — EscFR";
     window_->SetTitle(window_title.c_str());
   }
@@ -525,7 +530,7 @@ void UI::NavigateActiveTab(const char* url) {
 
   String target(url);
   String resolved = ResolveURL(target);
-  if (resolved.utf8().empty())
+  if (escfr::ToStd(resolved).empty())
     resolved = target;
 
   active_tab()->view()->LoadURL(resolved);
@@ -533,12 +538,12 @@ void UI::NavigateActiveTab(const char* url) {
 }
 
 String UI::ResolveURL(const String& url) {
-  std::string resolved = escfr::ResolveInternalURL(url.utf8());
-  return String(resolved.c_str());
+  std::string resolved = escfr::ResolveInternalURL(escfr::ToStd(url));
+  return escfr::FromStd(resolved);
 }
 
 bool UI::IsInternalURL(const String& url) const {
-  std::string value = url.utf8();
+  std::string value = escfr::ToStd(url);
   return value.find("file:///") == 0;
 }
 

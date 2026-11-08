@@ -34,6 +34,9 @@ public:
 
   // Inherited from ViewListener
   virtual void OnChangeCursor(ultralight::View* caller, Cursor cursor) override { SetCursor(cursor); }
+  virtual void OnAddConsoleMessage(View* caller, MessageSource source, MessageLevel level,
+    const String& message, uint32_t line_number, uint32_t column_number,
+    const String& source_id) override;
 
   // Called from the chrome's JavaScript
   void OnBack(const JSObject& obj, const JSArgs& args);

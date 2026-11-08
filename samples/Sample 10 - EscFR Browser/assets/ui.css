@@ -110,6 +110,7 @@
 
 html,
 body {
+  position: relative;
   height: 88px;
   width: 100%;
   overflow: hidden;
@@ -124,6 +125,12 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 /* faint "wire grid" behind the chrome */
@@ -153,10 +160,7 @@ body::before {
    ------------------------------------------------------------ */
 #tabstrip {
   position: relative;
-  display: flex;
-  align-items: flex-end;
   height: 40px;
-  padding: 0 8px;
   background: linear-gradient(180deg, #0a1019 0%, #070c13 100%);
   border-bottom: 1px solid var(--line-soft);
 }
@@ -172,11 +176,14 @@ body::before {
 }
 
 #tabs {
+  position: absolute;
+  left: 8px;
+  right: 158px;
+  bottom: 0;
+  height: 32px;
   display: flex;
   align-items: flex-end;
-  min-width: 0;
-  flex: 1;
-  height: 100%;
+  overflow: hidden;
 }
 
 .tab {
@@ -303,11 +310,11 @@ body::before {
 }
 
 #new-tab {
-  position: relative;
+  position: absolute;
+  right: 122px;
+  bottom: 4px;
   width: 28px;
   height: 28px;
-  flex: 0 0 28px;
-  margin: 0 2px 4px 4px;
   border: none;
   border-radius: 7px;
   background: transparent;
@@ -332,8 +339,10 @@ body::before {
 }
 
 .strip-mark {
-  flex: 0 0 auto;
-  margin: 0 4px 11px 10px;
+  position: absolute;
+  right: 10px;
+  bottom: 12px;
+  margin: 0;
   font-family: var(--mono);
   font-size: 9px;
   letter-spacing: 1.6px;

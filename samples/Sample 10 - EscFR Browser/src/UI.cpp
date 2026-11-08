@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <string>
 #include <vector>
@@ -86,6 +87,13 @@ UI::~UI() {
 // ---------------------------------------------------------------------------
 // Chrome → native
 // ---------------------------------------------------------------------------
+
+void UI::OnAddConsoleMessage(View* caller, MessageSource source, MessageLevel level,
+  const String& message, uint32_t line_number, uint32_t column_number, const String& source_id) {
+  std::string text = escfr::ToStd(message);
+  std::printf("[chrome] %s (line %u)\n", text.c_str(), line_number);
+  std::fflush(stdout);
+}
 
 void UI::OnDOMReady(View* caller, uint64_t frame_id, bool is_main_frame, const String& url) {
   if (caller != view())

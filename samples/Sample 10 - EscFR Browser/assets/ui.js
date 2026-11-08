@@ -319,12 +319,12 @@ var EscFRUI = (function () {
   function trimTabs() {
     var strip = byId('tabs');
     var count = state.order.length;
-    var available = strip.parentNode.clientWidth - 120;
-    var width = Math.min(232, Math.max(48, Math.floor(available / Math.max(1, count)) - 4));
+    var available = strip.parentNode.clientWidth - 8 - 158;
+    var width = Math.min(232, Math.max(48, Math.floor(available / Math.max(1, count)) - 3));
     state.order.forEach(function (id) {
       var el = document.querySelector('[data-tab-id="' + id + '"]');
       if (el) {
-        el.style.flexBasis = width + 'px';
+        el.style.width = Math.min(232, width) + 'px';
         el.style.maxWidth = Math.min(232, width) + 'px';
       }
     });

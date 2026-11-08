@@ -192,6 +192,11 @@ void Tab::OnChangeCursor(View* caller, Cursor cursor) {
 
 void Tab::OnAddConsoleMessage(View* caller, MessageSource source, MessageLevel level,
   const String& message, uint32_t line_number, uint32_t column_number, const String& source_id) {
+  std::string text = escfr::ToStd(message);
+  std::string origin = escfr::ToStd(source_id);
+  std::printf("[page %llu] %s%s%s:%u\n", (unsigned long long)id_, text.c_str(),
+              origin.empty() ? "" : "  @ ", origin.c_str(), line_number);
+  std::fflush(stdout);
 }
 
 RefPtr<View> Tab::OnCreateChildView(ultralight::View* caller, const String& opener_url,

@@ -126,7 +126,8 @@ interactive_case() {
 
   echo "--- Ctrl+T (new tab) ---"
   xdotool key --clearmodifiers ctrl+t 2>/dev/null || true
-  sleep 2
+  sleep 3
+  import -window root "escfr-tabs-1.png" > /dev/null 2>&1 || true
   echo "--- Ctrl+L + type esc://settings + Enter ---"
   xdotool key --clearmodifiers ctrl+l 2>/dev/null || true
   sleep 1
@@ -136,6 +137,7 @@ interactive_case() {
   sleep 7
 
   import -window root "$shot" > /tmp/import.log 2>&1 || true
+  grep -iE "console|error|exception|\[page|\[chrome" "$log" 2>/dev/null | head -6 | while IFS= read -r line; do echo "::error::DIAG $line"; done
   if [[ -s "$shot" ]]; then
     echo "screenshot $shot captured"
     identify "$shot" 2>&1 || true

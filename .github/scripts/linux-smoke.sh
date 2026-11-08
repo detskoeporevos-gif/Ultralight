@@ -2,7 +2,7 @@
 # Smoke test for the EscFR sample: launch it on a virtual X display, make sure
 # it stays alive, and capture screenshots of the internal pages.
 #
-# usage: linux-smoke.sh "build/samples/Sample 10 - EscFR Browser"
+# usage: linux-smoke.sh "build/Sample 10 - EscFR Browser"
 set -uo pipefail
 
 APP_DIR="${1:-}"

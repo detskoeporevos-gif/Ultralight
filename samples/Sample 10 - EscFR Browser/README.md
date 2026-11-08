@@ -24,7 +24,7 @@ UltralightCore) from Ultralight's CDN.
 Run the result from the build output directory (so `./assets/` resolves):
 
 ```bash
-cd build/samples/"Sample 10 - EscFR Browser"
+cd "build/Sample 10 - EscFR Browser"
 ./EscFR
 ```
 

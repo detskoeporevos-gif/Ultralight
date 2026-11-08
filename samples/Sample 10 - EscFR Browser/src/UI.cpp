@@ -443,7 +443,7 @@ void UI::UpdateTabTitle(uint64_t id, const String& title) {
     return;
 
   if (chrome_ready_)
-    updateTab({ id, title, String(), tabs_[id]->view()->is_loading() });
+    updateTab({ id, title, JSValue(), tabs_[id]->view()->is_loading() });
 
   if (id == active_tab_id_) {
     std::string window_title = escfr::ToStd(title);
@@ -468,7 +468,7 @@ void UI::UpdateTabNavigation(uint64_t id, bool is_loading, bool can_go_back, boo
     return;
 
   if (chrome_ready_)
-    updateTab({ id, tabs_[id]->view()->title(), String(), is_loading });
+    updateTab({ id, tabs_[id]->view()->title(), JSValue(), is_loading });
 
   if (id != active_tab_id_)
     return;

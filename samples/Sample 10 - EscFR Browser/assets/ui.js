@@ -196,7 +196,7 @@ var EscFRUI = (function () {
     var tab = state.tabs[id];
     if (!tab) return false;
     if (title) tab.title = title;
-    if (url) tab.url = url;
+    if (typeof url === 'string' && url) tab.url = url;
     tab.loading = !!loading;
 
     var el = document.querySelector('[data-tab-id="' + id + '"]');
@@ -210,7 +210,7 @@ var EscFRUI = (function () {
     id = String(id);
     var tab = state.tabs[id];
     if (!tab) return false;
-    if (url) tab.url = url;
+    if (typeof url === 'string' && url) tab.url = url;
     var el = document.querySelector('[data-tab-id="' + id + '"]');
     if (el) paintTab(el, tab);
     updateNavigation(tab);
@@ -265,7 +265,7 @@ var EscFRUI = (function () {
     updateShield(url);
     var tab = activeTab();
     if (tab) {
-      if (url) tab.url = url;
+      if (typeof url === 'string' && url) tab.url = url;
       var el = document.querySelector('[data-tab-id="' + tab.id + '"]');
       if (el) paintTab(el, tab);
     }
